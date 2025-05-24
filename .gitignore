@@ -1,0 +1,24 @@
+# General
+*.pyc
+__pycache__/
+.DS_Store
+
+# Backend
+# Ignore the .env file in the backend directory (contains API key)
+backend/.env
+# Ignore backend virtual environment
+backend/venv/
+backend/__pycache__/
+
+# Frontend
+# Ignore Node.js dependency modules
+frontend/node_modules/
+# Ignore React build output (though not served directly in this setup)
+frontend/build/
+# Ignore local environment variables for frontend
+frontend/.env.local
+frontend/.env # General frontend .env files
+# Ignore Create React App specific log files
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
