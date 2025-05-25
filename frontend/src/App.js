@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { parse, format } from 'date-fns';
 import './App.css';
 import SchoolSearch from './components/SchoolSearch';
 import TimetableDisplay from './components/TimetableDisplay';
@@ -11,6 +14,7 @@ function App() {
   const [grade, setGrade] = useState('');
   const [classNum, setClassNum] = useState('');
   const [date, setDate] = useState(''); // YYYYMMDD
+  const [selectedDateObj, setSelectedDateObj] = useState(new Date());
   const [timetable, setTimetable] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -26,7 +30,9 @@ function App() {
 
   // Set initial date to today
   useEffect(() => {
-    setDate(getTodayDate());
+    const todayStr = getTodayDate();
+    setDate(todayStr);
+    setSelectedDateObj(parse(todayStr, 'yyyyMMdd', new Date()));
   }, []);
 
   const handleSearchSchool = async () => {
@@ -176,14 +182,24 @@ function App() {
               />
             </div>
             <div className="input-group">
-              <label htmlFor="date-input">날짜 (YYYYMMDD): </label>
-              <input 
+              <label htmlFor="date-input">날짜: </label>
+              <DatePicker
                 id="date-input"
-                type="text" 
-                value={date} 
-                onChange={(e) => setDate(e.target.value)} 
-                placeholder="예: 20231128" 
+                selected={selectedDateObj}
+                onChange={(d) => {
+                  if (d) {
+                    setSelectedDateObj(d);
+                    setDate(format(d, 'yyyyMMdd'));
+                  } else {
+                    // Handle case where date is cleared, if necessary
+                    setSelectedDateObj(null);
+                    setDate('');
+                  }
+                }}
+                dateFormat="yyyyMMdd"
+                placeholderText="예: 20231128"
                 disabled={loading}
+                className="date-picker-custom" // You might need to style this
               />
             </div>
             <button onClick={handleGetTimetable} disabled={loading} className="action-button">

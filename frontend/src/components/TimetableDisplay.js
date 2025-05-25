@@ -15,9 +15,9 @@ function TimetableDisplay({ timetableData }) {
   );
 
   return (
-    <div>
-      <h2>시간표</h2>
-      <table>
+    <div className="timetable-display-container">
+      <h3>시간표</h3> {/* Changed from h2 to h3 to match App.css, or change App.css */}
+      <table className="timetable-table">
         <thead>
           <tr>
             <th>교시</th>
